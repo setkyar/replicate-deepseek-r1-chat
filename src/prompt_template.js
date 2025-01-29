@@ -1,78 +1,78 @@
-export const Llama3Template = (defaultSystemPrompt = "") => {
+export const Llama3Template = (defaultSystemPrompt = '') => {
   return function (chat) {
     let systemPrompt = defaultSystemPrompt;
 
     let parts = [];
     for (let turn of chat) {
-      if (turn.role === "system") {
+      if (turn.role === 'system') {
         systemPrompt = turn.content;
         continue;
       }
 
-      if (turn.role === "user") {
-        if (systemPrompt !== "") {
+      if (turn.role === 'user') {
+        if (systemPrompt !== '') {
           parts.push(
-            "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n" +
+            '<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n' +
               systemPrompt +
-              "<|eot_id|>" +
-              "\n<|start_header_id|>user<|end_header_id|>\n\n" +
+              '<|eot_id|>' +
+              '\n<|start_header_id|>user<|end_header_id|>\n\n' +
               turn.content +
-              "<|eot_id|>"
+              '<|eot_id|>'
           );
-          systemPrompt = "";
+          systemPrompt = '';
         } else {
           parts.push(
-            "<|start_header_id|>user<|end_header_id|> " +
+            '<|start_header_id|>user<|end_header_id|> ' +
               turn.content +
-              "<|eot_id|>"
+              '<|eot_id|>'
           );
         }
       }
 
-      if (turn.role === "assistant") {
+      if (turn.role === 'assistant') {
         parts.push(
-          "<|start_header_id|>assistant<|end_header_id|>" +
+          '<|start_header_id|>assistant<|end_header_id|>' +
             turn.content +
-            "<|eot_id|>"
+            '<|eot_id|>'
         );
       }
     }
 
-    return parts.join("");
+    return parts.join('');
   };
 };
 
-export const LlamaTemplate = (defaultSystemPrompt = "") => {
+export const LlamaTemplate = (defaultSystemPrompt = '') => {
   return function (chat) {
     let systemPrompt = defaultSystemPrompt;
 
     let parts = [];
     for (let turn of chat) {
-      if (turn.role === "system") {
+      if (turn.role === 'system') {
         systemPrompt = turn.content;
         continue;
       }
 
-      if (turn.role === "user") {
-        if (systemPrompt !== "") {
+      if (turn.role === 'user') {
+        if (systemPrompt !== '') {
           parts.push(
-            "<s>[INST] <<SYS>>\n" +
+            '<s>[INST] <<SYS>>\n' +
               systemPrompt +
-              "\n<</SYS>>\n\n" +
+              '\n<</SYS>>\n\n' +
               turn.content +
-              " [/INST]"
+              ' [/INST]'
           );
-          systemPrompt = "";
+          systemPrompt = '';
         } else {
-          parts.push("<s>[INST] " + turn.content + " [/INST]");
+          parts.push('<s>[INST] ' + turn.content + ' [/INST]');
         }
       }
 
-      if (turn.role === "assistant") {
-        parts.push(" " + turn.content + " </s>");
+      if (turn.role === 'assistant') {
+        parts.push(' ' + turn.content + ' </s>');
       }
     }
 
-    return parts.join("");
+    return parts.join('');
   };
 };

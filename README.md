@@ -1,13 +1,6 @@
-# Llama Chat 🦙
+# Deepseek R1 Chat 🐳
 
-This is a [Next.js](https://nextjs.org/) app that demonstrates how to build a chat UI using the [Llama 3](https://replicate.com/meta/llama-3-70b-chat) language model and Replicate's [streaming API (private beta)](https://replicate.com/docs/streaming).
-
-Here's a demo:
-
-https://github.com/replicate/llama-chat/assets/14149230/e700b256-dc34-4c4e-b912-8a84ec4bec6a
-
-
-
+This is a [Next.js](https://nextjs.org/) app that demonstrates how to build a chat UI using the [Deepseek R1](https://replicate.com/deepseek-ai/deepseek-r1) language model and Replicate's [streaming API (private beta)](https://replicate.com/docs/streaming). And it's based on [replicate llama-chat](https://github.com/replicate/llama-chat).
 
 ## Usage
 
