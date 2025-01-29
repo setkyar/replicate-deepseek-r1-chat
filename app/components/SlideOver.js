@@ -1,10 +1,10 @@
-import { Fragment } from "react";
-import { Dialog, Transition, Listbox } from "@headlessui/react";
+import { Fragment } from 'react';
+import { Dialog, Transition, Listbox } from '@headlessui/react';
 import {
   XMarkIcon,
   ChevronUpDownIcon,
   CheckIcon,
-} from "@heroicons/react/24/outline";
+} from '@heroicons/react/24/outline';
 
 export default function SlideOver({
   open,
@@ -50,7 +50,7 @@ export default function SlideOver({
                       <div className="bg-gray-700 px-4 py-6 sm:px-6">
                         <div className="flex items-center justify-between">
                           <Dialog.Title className="text-base font-semibold leading-6 text-white">
-                            🦙 Chat with a Llama
+                            🐳 Chat with a Deepseek R1
                           </Dialog.Title>
                           <div className="ml-3 flex h-7 items-center">
                             <button
@@ -94,7 +94,7 @@ export default function SlideOver({
                                   <div className="relative mt-1">
                                     <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left border border-gray-300 focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
                                       <span className="block truncate">
-                                        {size ? size.name : "loading..."}
+                                        {size ? size.name : 'loading...'}
                                       </span>
                                       <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                                         <ChevronUpDownIcon
@@ -111,14 +111,14 @@ export default function SlideOver({
                                     >
                                       <Listbox.Options className="absolute mt-1 max-h-60 w-full shadow-md overflow-auto border-gray-700 rounded-md bg-white py-1 text-base ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                                         {models
-                                          ? models.map(
-                                            (model, modelIdx) => (
+                                          ? models.map((model, modelIdx) => (
                                               <Listbox.Option
                                                 key={modelIdx}
                                                 className={({ active }) =>
-                                                  `relative cursor-default select-none py-2 pl-10 pr-4 ${active
-                                                    ? "bg-gray-100 text-gray-900"
-                                                    : "text-gray-900"
+                                                  `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                                                    active
+                                                      ? 'bg-gray-100 text-gray-900'
+                                                      : 'text-gray-900'
                                                   }`
                                                 }
                                                 value={model}
@@ -126,10 +126,11 @@ export default function SlideOver({
                                                 {({ selected }) => (
                                                   <>
                                                     <span
-                                                      className={`block truncate ${selected
-                                                        ? "font-medium"
-                                                        : "font-normal"
-                                                        }`}
+                                                      className={`block truncate ${
+                                                        selected
+                                                          ? 'font-medium'
+                                                          : 'font-normal'
+                                                      }`}
                                                     >
                                                       {model.name}
                                                     </span>
@@ -144,8 +145,7 @@ export default function SlideOver({
                                                   </>
                                                 )}
                                               </Listbox.Option>
-                                            )
-                                          )
+                                            ))
                                           : null}
                                       </Listbox.Options>
                                     </Transition>
@@ -196,7 +196,8 @@ export default function SlideOver({
                                 id="system-prompt-description"
                                 className="mt-2 text-xs text-gray-500"
                               >
-                                Your personal key for making API requests. Keep this secret!
+                                Your personal key for making API requests. Keep
+                                this secret!
                               </p>
                               <div className="mt-3">
                                 <input

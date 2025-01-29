@@ -1,18 +1,25 @@
-import Metrics from "./Metrics";
+import Metrics from './Metrics';
 
-const ChatForm = ({ prompt, setPrompt, onSubmit, metrics, completion, disabled }) => {
+const ChatForm = ({
+  prompt,
+  setPrompt,
+  onSubmit,
+  metrics,
+  completion,
+  disabled,
+}) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (disabled) {
       return;
     }
     onSubmit(prompt);
-    setPrompt("");
+    setPrompt('');
     event.target.rows = 1;
   };
 
   const handleKeyDown = (event) => {
-    if (event.key === "Enter" && !event.shiftKey) {
+    if (event.key === 'Enter' && !event.shiftKey) {
       event.preventDefault();
       handleSubmit(event);
     }
@@ -40,7 +47,7 @@ const ChatForm = ({ prompt, setPrompt, onSubmit, metrics, completion, disabled }
             onChange={(e) => setPrompt(e.target.value)}
             onKeyDown={handleKeyDown}
             onInput={(e) => {
-              const lineCount = e.target.value.split("\n").length;
+              const lineCount = e.target.value.split('\n').length;
               e.target.rows = lineCount > 10 ? 10 : lineCount;
             }}
           />

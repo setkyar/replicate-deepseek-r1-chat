@@ -1,66 +1,29 @@
-"use client";
+'use client';
 
-import { useEffect, useReducer, useRef, useState } from "react";
-import ChatForm from "./components/ChatForm";
-import Message from "./components/Message";
-import SlideOver from "./components/SlideOver";
-import EmptyState from "./components/EmptyState";
-import QueuedSpinner from "./components/QueuedSpinner";
-import CallToAction from "./components/CallToAction";
-import Dropdown from "./components/Dropdown";
-import { Cog6ToothIcon, CodeBracketIcon } from "@heroicons/react/20/solid";
-import { useCompletion } from "ai/react";
-import { Toaster, toast } from "react-hot-toast";
-import { LlamaTemplate, Llama3Template } from "../src/prompt_template";
-import TokenForm from "./components/TokenForm";
+import { useEffect, useReducer, useRef, useState } from 'react';
+import ChatForm from './components/ChatForm';
+import Message from './components/Message';
+import SlideOver from './components/SlideOver';
+import EmptyState from './components/EmptyState';
+import QueuedSpinner from './components/QueuedSpinner';
+import CallToAction from './components/CallToAction';
+import Dropdown from './components/Dropdown';
+import { Cog6ToothIcon, CodeBracketIcon } from '@heroicons/react/20/solid';
+import { useCompletion } from 'ai/react';
+import { Toaster, toast } from 'react-hot-toast';
+import { LlamaTemplate, Llama3Template } from '../src/prompt_template';
+import TokenForm from './components/TokenForm';
 
-import { countTokens } from "./src/tokenizer.js";
+import { countTokens } from './src/tokenizer.js';
 
 const MODELS = [
   {
-    id: "meta/meta-llama-3.1-405b-instruct",
-    name: "Meta Llama 3.1 405B",
-    shortened: "405B",
-    emoji: "🦙",
-    description: "The most accurate, powerful next generation Llama.",
+    id: 'deepseek-ai/deepseek-r1',
+    name: 'DeepSeek R1',
+    shortened: 'DeepSeek',
+    emoji: '🐳',
+    description: 'The most accurate and powerful LLM.',
     new: true,
-  },
-  {
-    id: "meta/meta-llama-3-70b-instruct",
-    name: "Meta Llama 3 70B",
-    shortened: "70B",
-    emoji: "🦙",
-    description: "The strong, flexible medium-size Llama.",
-    new: true,
-  },
-  {
-    id: "meta/meta-llama-3-8b-instruct",
-    name: "Meta Llama 3 8B",
-    shortened: "8B",
-    emoji: "🦙",
-    description: "The fastest and cheapest Llama.",
-    new: true,
-  },
-  {
-    id: "meta/llama-2-70b-chat",
-    name: "Meta Llama 2 70B",
-    shortened: "70B",
-    emoji: "🦙",
-    description: "The most accurate, powerful Llama 2",
-  },
-  {
-    id: "meta/llama-2-13b-chat",
-    name: "Meta Llama 2 13B",
-    shortened: "13B",
-    emoji: "🦙",
-    description: "Faster and cheaper Llama 2 at the expense of accuracy.",
-  },
-  {
-    id: "meta/llama-2-7b-chat",
-    name: "Meta Llama 2 7B",
-    shortened: "7B",
-    emoji: "🦙",
-    description: "The smallest, fastest Llama 2 chat model.",
   },
 ];
 
@@ -69,13 +32,13 @@ const llama3Template = Llama3Template();
 
 const generatePrompt = (template, systemPrompt, messages) => {
   const chat = messages.map((message) => ({
-    role: message.isUser ? "user" : "assistant",
+    role: message.isUser ? 'user' : 'assistant',
     content: message.text,
   }));
 
   return template([
     {
-      role: "system",
+      role: 'system',
       content: systemPrompt,
     },
     ...chat,
@@ -84,11 +47,11 @@ const generatePrompt = (template, systemPrompt, messages) => {
 
 const metricsReducer = (state, action) => {
   switch (action.type) {
-    case "START":
+    case 'START':
       return { startedAt: new Date() };
-    case "FIRST_MESSAGE":
+    case 'FIRST_MESSAGE':
       return { ...state, firstMessageAt: new Date() };
-    case "COMPLETE":
+    case 'COMPLETE':
       return { ...state, completedAt: new Date() };
     default:
       throw new Error(`Unsupported action type: ${action.type}`);
@@ -107,9 +70,9 @@ export default function HomePage() {
 
   const handleTokenSubmit = (e) => {
     e.preventDefault();
-    const token = e.target[0].value
-    console.log({token});
-    localStorage.setItem("replicate_api_token", token);
+    const token = e.target[0].value;
+    console.log({ token });
+    localStorage.setItem('replicate_api_token', token);
     setReplicateApiToken(token);
     setTokenFormVisible(false);
   };
@@ -117,7 +80,7 @@ export default function HomePage() {
   //   Llama params
   const [model, setModel] = useState(MODELS[0]); // default to 405B
   const [systemPrompt, setSystemPrompt] = useState(
-    "You are a helpful assistant."
+    'You are a helpful assistant.'
   );
   const [temp, setTemp] = useState(0.75);
   const [topP, setTopP] = useState(0.9);
@@ -136,7 +99,7 @@ export default function HomePage() {
   });
 
   const { complete, completion, setInput, input } = useCompletion({
-    api: "/api",
+    api: '/api',
     body: {
       replicateApiToken,
       model: model.id,
@@ -155,10 +118,10 @@ export default function HomePage() {
     onResponse: (response) => {
       setStarting(false);
       setError(null);
-      dispatch({ type: "FIRST_MESSAGE" });
+      dispatch({ type: 'FIRST_MESSAGE' });
     },
     onFinish: () => {
-      dispatch({ type: "COMPLETE" });
+      dispatch({ type: 'COMPLETE' });
     },
   });
 
@@ -166,7 +129,7 @@ export default function HomePage() {
     if (file) {
       // determine if file is image or audio
       if (
-        ["audio/mpeg", "audio/wav", "audio/ogg"].includes(
+        ['audio/mpeg', 'audio/wav', 'audio/ogg'].includes(
           file.originalFile.mime
         )
       ) {
@@ -175,7 +138,7 @@ export default function HomePage() {
         toast.success(
           "You uploaded an audio file, so you're now speaking with Salmonn."
         );
-      } else if (["image/jpeg", "image/png"].includes(file.originalFile.mime)) {
+      } else if (['image/jpeg', 'image/png'].includes(file.originalFile.mime)) {
         setImage(file.fileUrl);
         setModel(MODELS[3]);
         toast.success(
@@ -198,17 +161,35 @@ export default function HomePage() {
     setOpen(false);
     setSystemPrompt(event.target.systemPrompt.value);
     setReplicateApiToken(event.target.replicateApiToken.value);
-    localStorage.setItem("replicate_api_token", event.target.replicateApiToken.value);
+    localStorage.setItem(
+      'replicate_api_token',
+      event.target.replicateApiToken.value
+    );
+  };
+
+  const removeThinkingContent = (text) => {
+    if (!text) return text;
+    const thinkStartIndex = text.indexOf('<think>');
+    const thinkEndIndex = text.indexOf('</think>');
+
+    if (thinkStartIndex !== -1 && thinkEndIndex !== -1) {
+      return (
+        text.substring(0, thinkStartIndex) + text.substring(thinkEndIndex + 8)
+      ).trim();
+    }
+
+    return text;
   };
 
   const handleSubmit = async (userMessage) => {
     setStarting(true);
-    const SNIP = "<!-- snip -->";
+    const SNIP = '<!-- snip -->';
 
     const messageHistory = [...messages];
+
     if (completion.length > 0) {
       messageHistory.push({
-        text: completion,
+        text: removeThinkingContent(completion),
         isUser: false,
       });
     }
@@ -219,7 +200,7 @@ export default function HomePage() {
 
     // Generate initial prompt and calculate tokens
     let prompt = `${generatePrompt(
-      model.name.includes("Llama 3") ? llama3Template : llamaTemplate,
+      model.name.includes('Llama 3') ? llama3Template : llamaTemplate,
       systemPrompt,
       messageHistory
     )}\n`;
@@ -230,7 +211,7 @@ export default function HomePage() {
     while (countTokens(prompt) > MAX_TOKENS) {
       if (messageHistory.length < 3) {
         setError(
-          "Your message is too long. Please try again with a shorter message."
+          'Your message is too long. Please try again with a shorter message.'
         );
 
         return;
@@ -249,18 +230,18 @@ export default function HomePage() {
 
     setMessages(messageHistory);
 
-    dispatch({ type: "START" });
+    dispatch({ type: 'START' });
 
     complete(prompt);
   };
 
   useEffect(() => {
     if (messages?.length > 0 || completion?.length > 0) {
-      bottomRef.current.scrollIntoView({ behavior: "smooth" });
+      bottomRef.current.scrollIntoView({ behavior: 'smooth' });
     }
 
-    if (localStorage.getItem("replicate_api_token")) {
-      setReplicateApiToken(localStorage.getItem("replicate_api_token"));
+    if (localStorage.getItem('replicate_api_token')) {
+      setReplicateApiToken(localStorage.getItem('replicate_api_token'));
       setTokenFormVisible(false);
     } else {
       setTokenFormVisible(true);
@@ -288,7 +269,7 @@ export default function HomePage() {
             <CodeBracketIcon
               className="w-5 h-5 text-gray-500 sm:mr-2 group-hover:text-gray-900"
               aria-hidden="true"
-            />{" "}
+            />{' '}
             <span className="hidden sm:inline">Clone on GitHub</span>
           </a>
           <button
@@ -299,7 +280,7 @@ export default function HomePage() {
             <Cog6ToothIcon
               className="w-5 h-5 text-gray-500 sm:mr-2 group-hover:text-gray-900"
               aria-hidden="true"
-            />{" "}
+            />{' '}
             <span className="hidden sm:inline">Settings</span>
           </button>
         </div>

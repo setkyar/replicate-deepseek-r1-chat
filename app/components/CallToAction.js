@@ -1,4 +1,4 @@
-import CTAGooBG from "../../public/cta-goo-bg.webp";
+import CTAGooBG from '../../public/cta-goo-bg.webp';
 
 export default function CallToAction() {
   // todo: make this real goo
@@ -7,14 +7,14 @@ export default function CallToAction() {
       className="guide-footer-cta sm:flex items-center bg-pink-600 justify-between p-12 space-y-4"
       style={{
         background: `url(${CTAGooBG.src}) no-repeat center center`,
-        backgroundSize: "cover",
-        position: "relative",
+        backgroundSize: 'cover',
+        position: 'relative',
         zIndex: 1,
       }}
     >
       <div>
         <h1 className="text-2xl sm:text-3xl text-white font-bold">
-          Run Meta Llama 3.1 with an API
+          Run Deepseek R1 with an API
         </h1>
         <p className="text-white mx-auto mt-2 sm:mt-0">
           Replicate lets you run language models in the cloud with one line of

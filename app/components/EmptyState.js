@@ -2,12 +2,12 @@ export default function EmptyState({ setOpen, setPrompt }) {
   return (
     <div className="flex gap-x-4 mb-8">
       <span className="text-xl sm:text-2xl pt-4" title="AI">
-        🦙
+        🐳
       </span>
       <div className="flex flex-col text-sm sm:text-base flex-1 gap-y-4 mt-1 rounded-lg bg-gray-100 py-5 px-5">
         <p>I&apos;m an open-source chatbot.</p>
         <p>
-          I can{" "}
+          I can{' '}
           <button
             className="prompt-button"
             onClick={() =>
@@ -18,16 +18,16 @@ export default function EmptyState({ setOpen, setPrompt }) {
           >
             explain concepts
           </button>
-          , write{" "}
+          , write{' '}
           <button
             className="prompt-button"
             onClick={() =>
-              setPrompt("Write a poem about open source machine learning. ")
+              setPrompt('Write a poem about open source machine learning. ')
             }
           >
             poems
-          </button>{" "}
-          and{" "}
+          </button>{' '}
+          and{' '}
           <button
             className="prompt-button"
             onClick={() =>
@@ -38,28 +38,28 @@ export default function EmptyState({ setOpen, setPrompt }) {
           >
             code
           </button>
-          ,{" "}
+          ,{' '}
           <button
             className="prompt-button"
             onClick={() =>
               setPrompt(
-                "Respond to this question only based on the information provided here. Cats like dogs, and dogs like rabbits. Cats like anything that dogs like. I really really dislike rabbits. How do cats feel about rabbits?"
+                'Respond to this question only based on the information provided here. Cats like dogs, and dogs like rabbits. Cats like anything that dogs like. I really really dislike rabbits. How do cats feel about rabbits?'
               )
             }
           >
             solve logic puzzles
           </button>
-          , or even{" "}
+          , or even{' '}
           <button
             className="prompt-button"
             onClick={() =>
               setPrompt(
-                "please provide 10 fun names for a pet pelican. Please come up with unique emojis to go along with each name. Try not to repeat the same emojis. Make them fun, colorful, and loving names"
+                'please provide 10 fun names for a pet pelican. Please come up with unique emojis to go along with each name. Try not to repeat the same emojis. Make them fun, colorful, and loving names'
               )
             }
           >
             name your pets.
-          </button>{" "}
+          </button>{' '}
         </p>
         <p>What do you want to chat about?</p>
       </div>
