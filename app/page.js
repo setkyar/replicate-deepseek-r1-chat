@@ -30,16 +30,34 @@ const MODELS = [
 const llamaTemplate = LlamaTemplate();
 const llama3Template = Llama3Template();
 
+const removeThinkingContent = (text) => {
+  if (!text) return text;
+  const thinkStartIndex = text.indexOf('<think>');
+  const thinkEndIndex = text.indexOf('</think>');
+
+  if (thinkStartIndex !== -1 && thinkEndIndex !== -1) {
+    return (
+      text.substring(0, thinkStartIndex) + text.substring(thinkEndIndex + 8)
+    ).trim();
+  }
+
+  return text;
+};
+
 const generatePrompt = (template, systemPrompt, messages) => {
+  // Clean system prompt
+  const cleanedSystemPrompt = removeThinkingContent(systemPrompt);
+
+  // Clean and map messages
   const chat = messages.map((message) => ({
     role: message.isUser ? 'user' : 'assistant',
-    content: message.text,
+    content: removeThinkingContent(message.text),
   }));
 
   return template([
     {
       role: 'system',
-      content: systemPrompt,
+      content: cleanedSystemPrompt,
     },
     ...chat,
   ]);
@@ -167,20 +185,6 @@ export default function HomePage() {
     );
   };
 
-  const removeThinkingContent = (text) => {
-    if (!text) return text;
-    const thinkStartIndex = text.indexOf('<think>');
-    const thinkEndIndex = text.indexOf('</think>');
-
-    if (thinkStartIndex !== -1 && thinkEndIndex !== -1) {
-      return (
-        text.substring(0, thinkStartIndex) + text.substring(thinkEndIndex + 8)
-      ).trim();
-    }
-
-    return text;
-  };
-
   const handleSubmit = async (userMessage) => {
     setStarting(true);
     const SNIP = '<!-- snip -->';
@@ -189,7 +193,7 @@ export default function HomePage() {
 
     if (completion.length > 0) {
       messageHistory.push({
-        text: removeThinkingContent(completion),
+        text: completion,
         isUser: false,
       });
     }
@@ -204,8 +208,6 @@ export default function HomePage() {
       systemPrompt,
       messageHistory
     )}\n`;
-
-    console.log(prompt);
 
     // Check if we exceed max tokens and truncate the message history if so.
     while (countTokens(prompt) > MAX_TOKENS) {
